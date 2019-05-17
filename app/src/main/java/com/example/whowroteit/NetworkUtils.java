@@ -22,7 +22,7 @@ public class NetworkUtils {
     // Parameter to filter by print type.
     private static final String PRINT_TYPE = "printType";
 
-    static String getBookInfo(String queryString){
+    public static String getBookInfo(String queryString){
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String bookJSONString = null;
