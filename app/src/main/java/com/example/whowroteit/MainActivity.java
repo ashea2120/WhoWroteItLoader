@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
@@ -87,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        //super.onPostExecute(s);
-
         try {
             // Convert the response into a JSON object.
             JSONObject jsonObject = new JSONObject(data);
@@ -100,9 +99,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             String title = null;
             String authors = null;
 
-            // Look for results in the items array, exiting
-            // when both the title and author
-            // are found or when all items have been checked.
+            // Look for results in the items array, exiting when both the
+            // title and author are found or when all items have been checked.
             while (i < itemsArray.length() &&
                     (authors == null && title == null)) {
                 // Get the current item information.
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 try {
                     title = volumeInfo.getString("title");
                     authors = volumeInfo.getString("authors");
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -126,9 +124,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             if (title != null && authors != null) {
                 mTitleText.setText(title);
                 mAuthorText.setText(authors);
+                //mBookInput.setText("");
             } else {
-                // If none are found, update the UI to
-                // show failed results.
+                // If none are found, update the UI to show failed results.
                 mTitleText.setText(R.string.no_results);
                 mAuthorText.setText("");
             }
@@ -138,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // update the UI to show failed results.
             mTitleText.setText(R.string.no_results);
             mAuthorText.setText("");
+            e.printStackTrace();
         }
 
     }
